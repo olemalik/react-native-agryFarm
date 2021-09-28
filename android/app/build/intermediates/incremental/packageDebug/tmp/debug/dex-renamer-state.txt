@@ -1,0 +1,10 @@
+#Tue Sep 28 23:05:45 IST 2021
+path.2=14/classes.dex
+path.1=0/classes.dex
+path.0=classes.dex
+renamed.2=classes3.dex
+renamed.1=classes2.dex
+renamed.0=classes.dex
+base.2=/Users/malikahmed/File Folders/MSC/1 year/Semester 2/Enterprise Mobility/Assignment/AgryFarm/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/14/classes.dex
+base.1=/Users/malikahmed/File Folders/MSC/1 year/Semester 2/Enterprise Mobility/Assignment/AgryFarm/android/app/build/intermediates/dex/debug/mergeProjectDexDebug/0/classes.dex
+base.0=/Users/malikahmed/File Folders/MSC/1 year/Semester 2/Enterprise Mobility/Assignment/AgryFarm/android/app/build/intermediates/dex/debug/mergeExtDexDebug/classes.dex

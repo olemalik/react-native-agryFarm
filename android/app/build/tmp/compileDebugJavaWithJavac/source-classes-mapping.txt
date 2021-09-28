@@ -1,0 +1,14 @@
+com/agryfarm/BuildConfig.java
+ com.agryfarm.BuildConfig
+com/agryfarm/MainApplication.java
+ com.agryfarm.MainApplication
+ com.agryfarm.MainApplication$1
+com/agryfarm/ReactNativeFlipper.java
+ com.agryfarm.ReactNativeFlipper
+ com.agryfarm.ReactNativeFlipper$1
+ com.agryfarm.ReactNativeFlipper$2
+ com.agryfarm.ReactNativeFlipper$2$1
+com/agryfarm/MainActivity.java
+ com.agryfarm.MainActivity
+com/facebook/react/PackageList.java
+ com.facebook.react.PackageList
