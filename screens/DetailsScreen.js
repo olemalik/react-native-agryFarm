@@ -9,6 +9,14 @@ const DetailsScreen = ({ navigation })=> {
           title="Go to Details... again"
           onPress={() => navigation.push('Home')}
         />
+         <Button
+            title="Go to home"
+            onPress={() => navigation.navigate("Home")}
+        />
+        <Button
+            title="Go back"
+            onPress={() => navigation.goBack()}
+        />
       </View>
     );
   }
