@@ -1,47 +1,3 @@
-// import * as React from 'react'; 
-// import {   View,StyleSheet } from 'react-native';
-// import {
-//     useTheme,
-//     Avatar,
-//     Title,
-//     Caption,
-//     Paragraph,
-//     Drawer,
-//     Text,
-//     TouchableRipple,
-//     Switch
-// } from 'react-native-paper'; 
-// import {
-//     DrawerContentScrollView,
-//     DrawerItem
-// } from '@react-navigation/drawer';
-
-// import Icon from 'react-native-vector-icons/MaterialCommunityIcons'; 
-// import { color } from 'react-native-reanimated';
-
-// export function DrawerContent(props){
-//       return (<View style={{flex:1}}> 
-//     <DrawerContentScrollView {...props}>
-//         <View>
-//             <Text>Main Content</Text>
-//         </View>
-//         </DrawerContentScrollView> 
-//         <Drawer.Section style={styles.bottomDrawerSection}>
-//             <Drawer.Item 
-//             icon ={({color,size})=>
-//              <Icon 
-//              name="exit-to-app"
-//              color={color}
-//              size={size}
-//              />   
-//             }
-//             label="Sign Out" 
-//             onPress={()=>{}}
-//                 />
-//         </Drawer.Section>
-//       </View>);
-        
-// }
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import {
@@ -68,7 +24,7 @@ export function DrawerContent(props) {
 
     const paperTheme = useTheme();
 
-  //  const { signOut, toggleTheme } = React.useContext(AuthContext);
+    const { signOut, toggleTheme } = React.useContext(AuthContext);
 
     return(
         <View style={{flex:1}}>
@@ -78,13 +34,13 @@ export function DrawerContent(props) {
                         <View style={{flexDirection:'row',marginTop: 15}}>
                             <Avatar.Image 
                                 source={{
-                                    uri: 'https://media-exp1.licdn.com/dms/image/C5103AQG1S1Uc4ZAvBg/profile-displayphoto-shrink_200_200/0/1583484506026?e=1638403200&v=beta&t=LWoGzqt4hwf6XDvj1V6ZYICJNqWTXe0ozqspHd-W_qY'
+                                    uri: 'https://api.adorable.io/avatars/50/abott@adorable.png'
                                 }}
                                 size={50}
                             />
                             <View style={{marginLeft:15, flexDirection:'column'}}>
-                                <Title style={styles.title}>Malik  Ahmed</Title>
-                                <Caption style={styles.caption}>@olemalik</Caption>
+                                <Title style={styles.title}>John Doe</Title>
+                                <Caption style={styles.caption}>@j_doe</Caption>
                             </View>
                         </View>
 
@@ -179,15 +135,16 @@ export function DrawerContent(props) {
                         />
                     )}
                     label="Sign Out"
-                    onPress={() => {}}//{signOut()}}
+                    onPress={() => {signOut()}}
                 />
             </Drawer.Section>
         </View>
     );
 }
+
 const styles = StyleSheet.create({
     drawerContent: {
-      flex: 1,   
+      flex: 1,
     },
     userInfoSection: {
       paddingLeft: 20,
@@ -219,7 +176,7 @@ const styles = StyleSheet.create({
       marginTop: 15,
     },
     bottomDrawerSection: {
-       // marginBottom: 15,
+        marginBottom: 15,
         borderTopColor: '#f4f4f4',
         borderTopWidth: 1
     },
