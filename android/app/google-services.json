@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "146719434449",
+    "project_id": "agryfarm",
+    "storage_bucket": "agryfarm.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:146719434449:android:68fe93fb983a2585a207f0",
+        "android_client_info": {
+          "package_name": "em.agryfarm"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "146719434449-4jidpp888ml0li5aa1te6aq9c71qb9ni.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBRLwmU9y43BWkAjq4sMWBfB18v40lg6Nc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "146719434449-4jidpp888ml0li5aa1te6aq9c71qb9ni.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
