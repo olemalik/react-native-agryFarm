@@ -43,4 +43,26 @@ package-lock.json
 android/.DS_Store 
 
 *.bin
-*.lock
+*.lock 
+
+# binaries
+bin/
+dist/
+lib/
+
+# editors
+*.swp
+.idea/
+.vs/
+.vscode/
+.DS_Store
+
+
+android/app/.classpath
+android/app/.DS_Store
+android/app/.project
+android/app/BUCK
+android/.DS_Store
+android/.project
+.DS_Store
+package-lock.json

@@ -9,14 +9,17 @@ import {
     Platform,
     StyleSheet,
     ScrollView,
-    StatusBar
+    StatusBar,
+    Alert,
+    Picker
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
+import auth from '@react-native-firebase/auth';
 
-const SignInScreen = ({navigation}) => {
+const SignUpScreen = ({navigation}) => {
 
     const [data, setData] = React.useState({
         username: '',
@@ -25,23 +28,118 @@ const SignInScreen = ({navigation}) => {
         check_textInputChange: false,
         secureTextEntry: true,
         confirm_secureTextEntry: true,
+        isValidUser: true,
+        isValidPassword: true,
+        isValidConfirmPassword: true,
     });
+    const createUser = (user) => {
+         auth().createUserWithEmailAndPassword(user.email, user.password)
+         .then((result)=>{
+            Alert.alert('Signup successful.');
+            return result.user.updateProfile({
+                displayName: user.name
+              })
+           
+           })
+        .catch((error)=> {
+            debugger
+            switch (error.code) {
+                case 'auth/email-already-in-use':
+                 Alert. alert(`Email address ${this.data.username} already in use.`);
+                  break;
+                case 'auth/invalid-email':
+                 Alert. alert(`Email address ${this.data.username} is invalid.`);
+                  break;
+                case 'auth/weak-password':
+                 Alert. alert('Password is not strong enough. Add additional characters including special characters and numbers.');
+                  break;
+                default:
+                 Alert. alert(error.message);
+                  break;
+            }
+          })
+       
+      };
 
+      const signupHandle = (user) => {
+        //checking the user wheather user is available in our user storage 
+        //if not you can make an api call and validate the loginHandle's Parameters userName, password against api result
+       
+        if ( user.userName.length == 0 || user.password.length == 0 ) {
+            Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
+                {text: 'Okay'}
+            ]);
+            return false;
+        }
+        if(!validateEmail(user.userName)){
+            Alert.alert('Wrong Input!', 'Invalid Email.', [
+                {text: 'Okay'}
+            ]);
+            return false;
+        }
+        if ( user.password !=user.confirmPassword ) {
+            Alert.alert('Wrong Input!', 'Confirm Password is not matching with Password.', [
+                {text: 'Okay'}
+            ]);
+            return false;
+        } 
+        createUser(user);
+       
+    }
+    const validateEmail = (email) => {
+        const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    
+        return expression.test(String(email).toLowerCase());
+    }
+    const handleValidUser = (val) => {
+        const isValidEmail= validateEmail(val);
+        if(isValidEmail) {
+            setData({
+                ...data,
+                isValidUser: true
+            });
+        } else {
+            setData({
+                ...data,
+                isValidUser: false
+            });
+        }
+    }
     const textInputChange = (val) => {
-        if( val.length !== 0 ) {
+      const isvalidEmail=  validateEmail(data.email);
+        if( isvalidEmail ) {
             setData({
                 ...data,
                 username: val,
-                check_textInputChange: true
+                check_textInputChange: true,
+                isValidUser: true
             });
         } else {
             setData({
                 ...data,
                 username: val,
-                check_textInputChange: false
+                check_textInputChange: false,
+                isValidUser: false
             });
         }
     }
+    const textNameChange = (val) => {
+          if( val.length >=3 ) {
+              setData({
+                  ...data,
+                  name: val,
+                  check_textInputChange: true,
+                  isValidName: true
+              });
+          } else {
+              setData({
+                  ...data,
+                  name: val,
+                  check_textInputChange: false,
+                  isValidName: false
+              });
+          }
+      }
 
     const handlePasswordChange = (val) => {
         setData({
@@ -70,7 +168,32 @@ const SignInScreen = ({navigation}) => {
             confirm_secureTextEntry: !data.confirm_secureTextEntry
         });
     }
-
+  const handleValidConfirmPassword= (password,confirmPassword ) => {
+        if(password ==confirmPassword ) {
+            setData({
+                ...data,
+                isValidConfirmPassword: true
+            });
+        } else {
+            setData({
+                ...data,
+                isValidConfirmPassword: false
+            });
+        }
+    }
+    const handleValidPassword= (password ) => {
+        if(password.length >4 ) {
+            setData({
+                ...data,
+                isValidPassword: true
+            });
+        } else {
+            setData({
+                ...data,
+                isValidPassword: false
+            });
+        }
+    }
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
@@ -82,7 +205,7 @@ const SignInScreen = ({navigation}) => {
             style={styles.footer}
         >
             <ScrollView>
-            <Text style={styles.text_footer}>Username</Text>
+            <Text style={styles.text_footer}>Name</Text>
             <View style={styles.action}>
                 <FontAwesome 
                     name="user-o"
@@ -90,10 +213,11 @@ const SignInScreen = ({navigation}) => {
                     size={20}
                 />
                 <TextInput 
-                    placeholder="Your Username"
+                    placeholder="Your Name"
                     style={styles.textInput}
                     autoCapitalize="none"
-                    onChangeText={(val) => textInputChange(val)}
+                    onChangeText={(val) => textNameChange(val)}
+                    onEndEditing={(e)=>textNameChange(e.nativeEvent.text)}
                 />
                 {data.check_textInputChange ? 
                 <Animatable.View
@@ -107,6 +231,45 @@ const SignInScreen = ({navigation}) => {
                 </Animatable.View>
                 : null}
             </View>
+            {data.isValidName? null : 
+            <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>Invalid Name</Text>
+            </Animatable.View>
+            }
+            
+            
+
+            <Text style={styles.text_footer}>Email</Text>
+            <View style={styles.action}>
+                <FontAwesome 
+                    name="user-o"
+                    color="#05375a"
+                    size={20}
+                />
+                <TextInput 
+                    placeholder="Your Email"
+                    style={styles.textInput}
+                    autoCapitalize="none"
+                    onChangeText={(val) => textInputChange(val)}
+                    onEndEditing={(e)=>handleValidUser(e.nativeEvent.text)}
+                />
+                {data.check_textInputChange ? 
+                <Animatable.View
+                    animation="bounceIn"
+                >
+                    <Feather 
+                        name="check-circle"
+                        color="green"
+                        size={20}
+                    />
+                </Animatable.View>
+                : null}
+            </View>
+            {data.isValidUser? null : 
+            <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>Invalid email address.</Text>
+            </Animatable.View>
+            }
 
             <Text style={[styles.text_footer, {
                 marginTop: 35
@@ -123,6 +286,7 @@ const SignInScreen = ({navigation}) => {
                     style={styles.textInput}
                     autoCapitalize="none"
                     onChangeText={(val) => handlePasswordChange(val)}
+                    onEndEditing={(e)=>handleValidPassword(e.nativeEvent.text)}
                 />
                 <TouchableOpacity
                     onPress={updateSecureTextEntry}
@@ -142,7 +306,11 @@ const SignInScreen = ({navigation}) => {
                     }
                 </TouchableOpacity>
             </View>
-
+           {data.isValidPassword ? null : 
+            <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>Password must be 5 characters long.</Text>
+            </Animatable.View>
+            } 
             <Text style={[styles.text_footer, {
                 marginTop: 35
             }]}>Confirm Password</Text>
@@ -158,6 +326,7 @@ const SignInScreen = ({navigation}) => {
                     style={styles.textInput}
                     autoCapitalize="none"
                     onChangeText={(val) => handleConfirmPasswordChange(val)}
+                    onEndEditing={(e)=>handleValidConfirmPassword(e.nativeEvent.text,data.confirm_password)}
                 />
                 <TouchableOpacity
                     onPress={updateConfirmSecureTextEntry}
@@ -177,6 +346,11 @@ const SignInScreen = ({navigation}) => {
                     }
                 </TouchableOpacity>
             </View>
+            { data.isValidConfirmPassword? null : 
+            <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>Confirm Password is not matching with Password.</Text>
+            </Animatable.View>
+            }
             <View style={styles.textPrivate}>
                 <Text style={styles.color_textPrivate}>
                     By signing up you agree to our
@@ -188,7 +362,7 @@ const SignInScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.signIn}
-                    onPress={() => {}}
+                    onPress={() => { signupHandle( data.username)}}
                 >
                 <LinearGradient
                     colors={['#08d4c4', '#01ab9d']}
@@ -219,7 +393,7 @@ const SignInScreen = ({navigation}) => {
     );
 };
 
-export default SignInScreen;
+export default SignUpScreen;
 
 const styles = StyleSheet.create({
     container: {
@@ -284,5 +458,9 @@ const styles = StyleSheet.create({
     },
     color_textPrivate: {
         color: 'grey'
-    }
+    },
+    errorMsg: {
+        color: '#FF0000',
+        fontSize: 14,
+    },
   });

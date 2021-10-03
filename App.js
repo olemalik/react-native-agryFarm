@@ -24,7 +24,7 @@ import { AuthContext } from './components/context';
 
 import RootStackScreen from './screens/RootStackScreen';
 
-//import AsyncStorage from '@react-native-community/async-storage';
+import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 const Drawer = createDrawerNavigator();
 

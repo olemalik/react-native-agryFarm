@@ -19,6 +19,8 @@ import { useTheme } from 'react-native-paper';
 
 import { AuthContext } from '../components/context';
 
+import auth from '@react-native-firebase/auth';
+
 import Users from '../model/users';
 
 const SignInScreen = ({navigation}) => {
@@ -55,7 +57,7 @@ const SignInScreen = ({navigation}) => {
     }
 
     const handlePasswordChange = (val) => {
-        if( val.trim().length >= 8 ) {
+        if( val.trim().length >= 3 ) {
             setData({
                 ...data,
                 password: val,
@@ -78,7 +80,8 @@ const SignInScreen = ({navigation}) => {
     }
 
     const handleValidUser = (val) => {
-        if( val.trim().length >= 4 ) {
+        const isvalidEmail=  validateEmail(val);
+        if(isvalidEmail) {
             setData({
                 ...data,
                 isValidUser: true
@@ -94,24 +97,60 @@ const SignInScreen = ({navigation}) => {
     const loginHandle = (userName, password) => {
         //checking the user wheather user is available in our user storage 
         //if not you can make an api call and validate the loginHandle's Parameters userName, password against api result
-        const foundUser = Users.filter( item => {
-            return userName == item.username && password == item.password;
-        } );
 
-        if ( data.username.length == 0 || data.password.length == 0 ) {
+
+        if ( userName.length == 0 || data.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}
             ]);
             return;
         }
-
-        if ( foundUser.length == 0 ) {
-            Alert.alert('Invalid User!', 'Username or password is incorrect.', [
+        if(!validateEmail(userName)){
+            Alert.alert('Wrong Input!', 'Invalid Email.', [
                 {text: 'Okay'}
             ]);
-            return;
+            return false;
         }
-        signIn(foundUser);
+     
+        signInUser(userName,password);
+    }
+    const signInUser = (email, password) => {
+        auth().signInWithEmailAndPassword(email, password)
+        .then((data)=>{
+           signIn(data.user);
+            console.log(JSON.stringify(data.user.providerData));
+           // Alert.alert(JSON.stringify(data.user))
+           //Alert.alert('SigIn successful.');
+          })
+       .catch((error)=> {
+           switch (error.code) {
+               case 'auth/email-already-in-use':
+                Alert. alert(`Email address ${email} already in use.`);
+                 break;
+               case 'auth/invalid-email':
+                Alert. alert('User Not Found',`Email address ${email} is not found.`);
+                 break;
+                case 'auth/user-not-found':
+                Alert. alert(`Email address ${email} is invalid.`);
+                 break;
+               case 'auth/wrong-password':
+                    Alert. alert('Invalid!',`Email or Password not found`);
+                     break;
+               case 'auth/weak-password':
+                Alert. alert('Password is not strong enough. Add additional characters including special characters and numbers.');
+                 break;
+               default:
+                Alert. alert(error.message);
+                 break;
+             }
+         })
+       
+     };
+
+    const validateEmail = (email) => {
+        const expression = /(?!.*\.{2})^([a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+(\.[a-z\d!#$%&'*+\-\/=?^_`{|}~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]+)*|"((([\t]*\r\n)?[\t]+)?([\x01-\x08\x0b\x0c\x0e-\x1f\x7f\x21\x23-\x5b\x5d-\x7e\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|\\[\x01-\x09\x0b\x0c\x0d-\x7f\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]))*(([\t]*\r\n)?[\t]+)?")@(([a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\d\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.)+([a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]|[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF][a-z\d\-._~\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF]*[a-z\u00A0-\uD7FF\uF900-\uFDCF\uFDF0-\uFFEF])\.?$/i;
+    
+        return expression.test(String(email).toLowerCase());
     }
 
     return (
@@ -128,7 +167,7 @@ const SignInScreen = ({navigation}) => {
         >
             <Text style={[styles.text_footer, {
                 color: colors.text
-            }]}>Username</Text>
+            }]}>Email</Text>
             <View style={styles.action}>
                 <FontAwesome 
                     name="user-o"
@@ -159,7 +198,7 @@ const SignInScreen = ({navigation}) => {
             </View>
             { data.isValidUser ? null : 
             <Animatable.View animation="fadeInLeft" duration={500}>
-            <Text style={styles.errorMsg}>Username must be 4 characters long.</Text>
+            <Text style={styles.errorMsg}>Invalid Email Address</Text>
             </Animatable.View>
             }
             

@@ -1,4 +1,4 @@
-package com.agryfarm;
+package em.agryfarm;
 import android.os.Bundle;
 import com.facebook.react.ReactActivity;
 
