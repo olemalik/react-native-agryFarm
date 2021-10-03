@@ -10,20 +10,23 @@ import {
     StyleSheet,
     ScrollView,
     StatusBar,
-    Alert,
-    Picker
+    Alert
 } from 'react-native';
 import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
+import SelectDropdown from 'react-native-select-dropdown'
 
 const SignUpScreen = ({navigation}) => {
-
+    const userTypes = ["Agriculturist", "Farmer"]
+    const selectUserType ="Select an option.";
     const [data, setData] = React.useState({
         username: '',
         password: '',
+        usertype:'',
+        name:'',
         confirm_password: '',
         check_textInputChange: false,
         secureTextEntry: true,
@@ -31,9 +34,11 @@ const SignUpScreen = ({navigation}) => {
         isValidUser: true,
         isValidPassword: true,
         isValidConfirmPassword: true,
+        isValidName: true, 
+        isValidUserType: true
     });
     const createUser = (user) => {
-         auth().createUserWithEmailAndPassword(user.email, user.password)
+         auth().createUserWithEmailAndPassword(user.username, user.password)
          .then((result)=>{
             Alert.alert('Signup successful.');
             return result.user.updateProfile({
@@ -64,20 +69,29 @@ const SignUpScreen = ({navigation}) => {
       const signupHandle = (user) => {
         //checking the user wheather user is available in our user storage 
         //if not you can make an api call and validate the loginHandle's Parameters userName, password against api result
-       
-        if ( user.userName.length == 0 || user.password.length == 0 ) {
+     console.log(JSON.stringify(user))
+
+        if ( user.username.length == 0 || user.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}
             ]);
             return false;
         }
-        if(!validateEmail(user.userName)){
+
+        if(data.usertype == selectUserType || data.usertype ==''){
+            selectedUserType(selectUserType)
+            Alert.alert('User Type Required!', 'Please Select a user type.', [
+                {text: 'Okay'}
+            ]);
+         return false;
+        }
+        if(!validateEmail(user.username)){
             Alert.alert('Wrong Input!', 'Invalid Email.', [
                 {text: 'Okay'}
             ]);
             return false;
         }
-        if ( user.password !=user.confirmPassword ) {
+        if ( user.password !=user.confirm_password ) {
             Alert.alert('Wrong Input!', 'Confirm Password is not matching with Password.', [
                 {text: 'Okay'}
             ]);
@@ -194,6 +208,21 @@ const SignUpScreen = ({navigation}) => {
             });
         }
     }
+    const selectedUserType =(selectedItem)=>{ 
+        if(selectedItem !=  selectUserType || selectedItem !='') {  
+             setData({
+            ...data,
+            usertype: selectedItem, 
+            isValidUserType: true
+        });
+    } else {
+        setData({
+            ...data,
+            usertype: selectedItem, 
+            isValidUserType: false
+        });
+    }
+    }
     return (
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
@@ -236,9 +265,9 @@ const SignUpScreen = ({navigation}) => {
             <Text style={styles.errorMsg}>Invalid Name</Text>
             </Animatable.View>
             }
-            
-            
 
+
+            
             <Text style={styles.text_footer}>Email</Text>
             <View style={styles.action}>
                 <FontAwesome 
@@ -268,6 +297,31 @@ const SignUpScreen = ({navigation}) => {
             {data.isValidUser? null : 
             <Animatable.View animation="fadeInLeft" duration={500}>
             <Text style={styles.errorMsg}>Invalid email address.</Text>
+            </Animatable.View>
+            }
+
+            <Text style={styles.text_footer}>User Type</Text>
+            <View style={styles.action}>
+                <SelectDropdown
+                    style={styles.dropDown}
+                    data={userTypes}
+                    onSelect={(selectedItem, index) => selectedUserType(selectedItem)}
+                    buttonTextAfterSelection={(selectedItem, index) => {
+                        // text represented after item is selected
+                        // if data array is an array of objects then return selectedItem.property to render after item is selected
+                        return selectedItem
+                    }}
+                    rowTextForSelection={(item, index) => {
+                        // text represented for each item in dropdown
+                        // if data array is an array of objects then return item.property to represent item in dropdown
+                       //alert(item);
+                        return item
+                    }}
+                />
+            </View> 
+            {data.isValidUserType? null : 
+            <Animatable.View animation="fadeInLeft" duration={500}>
+            <Text style={styles.errorMsg}>Please Select a User Type.</Text>
             </Animatable.View>
             }
 
@@ -362,7 +416,7 @@ const SignUpScreen = ({navigation}) => {
             <View style={styles.button}>
                 <TouchableOpacity
                     style={styles.signIn}
-                    onPress={() => { signupHandle( data.username)}}
+                    onPress={() => { signupHandle( data)}}
                 >
                 <LinearGradient
                     colors={['#08d4c4', '#01ab9d']}
@@ -463,4 +517,11 @@ const styles = StyleSheet.create({
         color: '#FF0000',
         fontSize: 14,
     },
+    dropDown: {
+        width: '100%',
+        height: 50,
+        //justifyContent: 'center',
+        //alignItems: 'center',
+        borderRadius: 10
+    }
   });
