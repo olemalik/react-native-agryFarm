@@ -23,8 +23,11 @@ import auth from '@react-native-firebase/auth';
 
 import Users from '../model/users';
 
-const SignInScreen = ({navigation}) => {
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 
+const SignInScreen = ({navigation}) => {
+let dbRef = firestore().collection('userdetails');
     const [data, setData] = React.useState({
         username: '',
         password: '',
@@ -117,10 +120,20 @@ const SignInScreen = ({navigation}) => {
     const signInUser = (email, password) => {
         auth().signInWithEmailAndPassword(email, password)
         .then((data)=>{
-           signIn(data.user);
-            console.log(JSON.stringify(data.user.providerData));
-           // Alert.alert(JSON.stringify(data.user))
-           //Alert.alert('SigIn successful.');
+           firestore()
+           .collection('userdetails')
+           .get()
+           .then(querySnapshot => {
+             querySnapshot.forEach(documentSnapshot => {
+                var objectUserDetails =documentSnapshot.data();
+               
+                if(data.user.uid ==objectUserDetails.uid){
+                    data.user.usertype = objectUserDetails.usertype;
+                    signIn(data.user);
+                }
+                
+             });
+           });
           })
        .catch((error)=> {
            switch (error.code) {

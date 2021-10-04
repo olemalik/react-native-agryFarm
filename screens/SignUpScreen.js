@@ -17,7 +17,7 @@ import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
-import SelectDropdown from 'react-native-select-dropdown'
+import SelectDropdown from 'react-native-select-dropdown';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 
