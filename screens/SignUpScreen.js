@@ -51,14 +51,8 @@ const SignUpScreen = ({navigation}) => {
                  usertype: user.usertype,
                  displayName: user.name
                }).then((res) => {
-                setData({
-                    ...data,
-                    username: '',
-                    password: '',
-                    usertype:'',
-                    name:'',
-                    confirm_password: ''
-                });
+                navigation.navigate('SignInScreen');
+               
          });
             // return result.user.updateProfile({
             //     displayName: user.name
