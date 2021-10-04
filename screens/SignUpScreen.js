@@ -18,8 +18,13 @@ import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
 import auth from '@react-native-firebase/auth';
 import SelectDropdown from 'react-native-select-dropdown'
+import firebase from '@react-native-firebase/app';
+import firestore from '@react-native-firebase/firestore';
 
+//import 'firebase/firestore'
 const SignUpScreen = ({navigation}) => {
+  let dbRef = firestore().collection('userdetails');
+
     const userTypes = ["Agriculturist", "Farmer"]
     const selectUserType ="Select an option.";
     const [data, setData] = React.useState({
@@ -41,9 +46,23 @@ const SignUpScreen = ({navigation}) => {
          auth().createUserWithEmailAndPassword(user.username, user.password)
          .then((result)=>{
             Alert.alert('Signup successful.');
-            return result.user.updateProfile({
-                displayName: user.name
-              })
+             dbRef.add({
+                uid: result.user.uid,
+                 usertype: user.usertype,
+                 displayName: user.name
+               }).then((res) => {
+                setData({
+                    ...data,
+                    username: '',
+                    password: '',
+                    usertype:'',
+                    name:'',
+                    confirm_password: ''
+                });
+         });
+            // return result.user.updateProfile({
+            //     displayName: user.name
+            //   })
            
            })
         .catch((error)=> {
