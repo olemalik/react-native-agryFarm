@@ -1,30 +1,6 @@
-// import React from 'react';
-// import { View, Text, Button, StyleSheet } from 'react-native';
 
-// const SupportScreen = () => {
-//     return (
-//       <View style={styles.container}>
-//         <Text>Support Screen</Text>
-//         <Button
-//           title="Click Here"
-//           onPress={() => alert('Button Clicked!')}
-//         />
-//       </View>
-//     );
-// };
-
-// export default SupportScreen;
-
-// const styles = StyleSheet.create({
-//   container: {
-//     flex: 1, 
-//     alignItems: 'center', 
-//     justifyContent: 'center'
-//   },
-// });
 import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, ActivityIndicator, SafeAreaView, ScrollView, FlatList, Alert, RefreshControl } from 'react-native';
-//import * as Location from 'expo-location';
 import RNLocation from 'react-native-location';
 
 // import { openWeatherKey } from './Secrets';
@@ -33,7 +9,7 @@ let url = `https://api.openweathermap.org/data/2.5/onecall?&units=metric&exclude
 RNLocation.configure({
   distanceFilter: null
  })
-const SupportScreen = () => {
+const WeatherForecast = () => {
 
   const [forecast, setForecast] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
@@ -41,28 +17,10 @@ const SupportScreen = () => {
 
   const loadForecast = async () => {
     setRefreshing(true);
-
-    //const { status } = await Location.requestPermissionsAsync();
-  //  const {permission} = await RNLocation.requestPermission({
-  //     ios: "whenInUse",
-  //     android: {
-  //       detail: "coarse",
-  //       rationale: {
-  //         title: "We need to access your location",
-  //         message: "We use your location to show where you are on the map",
-  //         buttonPositive: "OK",
-  //         buttonNegative: "Cancel"
-  //       }
-  //     }
-  //   });
-  //   alert(permission)
-  //   if (!permission) {
-  //     Alert.alert('Permission to access location was denied');
-  //   }
-  let location;
-let permission=false;
-  if(!permission) {
-      permission = await RNLocation.requestPermission({
+    let location;
+     let permission=false;
+     if(!permission) {
+        permission = await RNLocation.requestPermission({
          ios: "whenInUse",
          android: {
            detail: "coarse",
@@ -246,4 +204,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SupportScreen;
+export default WeatherForecast;

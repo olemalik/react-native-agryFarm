@@ -143,7 +143,7 @@ export function DrawerContent(props) {
                                 />
                             )}
                             label="Support"
-                            onPress={() => {props.navigation.navigate('SupportScreen')}}
+                            onPress={() => {props.navigation.navigate('WeatherForecast')}}
                         />
                     </Drawer.Section>
                     <Drawer.Section title="Preferences">
