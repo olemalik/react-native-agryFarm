@@ -128,8 +128,10 @@ let dbRef = firestore().collection('userdetails');
                 var objectUserDetails =documentSnapshot.data();
                
                 if(data.user.uid ==objectUserDetails.uid){
-                    data.user.usertype = objectUserDetails.usertype;
-                    signIn(data.user);
+                    let logedInUserDetails =objectUserDetails;
+                    logedInUserDetails.usertype = objectUserDetails.usertype;
+                    logedInUserDetails.email=data.user.email;
+                    signIn(logedInUserDetails);
                 }
                 
              });

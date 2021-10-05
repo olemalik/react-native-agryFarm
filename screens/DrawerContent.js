@@ -20,12 +20,45 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import{ AuthContext } from '../components/context';
 
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 export function DrawerContent(props) {
+    const [loggedInUser, setData] = React.useState({
+        usertype:'',
+        name:'',
+        displayname:'',
+        usertype:''
+    })
+
+    AsyncStorage.getItem("loginUserDetails").then((value) => {
+        const user= JSON.parse(value);
+        return user;
+    })
+    .then(res => {
+        if(res){
+            setData({
+                ...loggedInUser,
+                displayname: res.displayName,
+                email:res.email,
+                uid:res.uid,
+                usertype:res.usertype
+            });
+        }else{
+            setData({
+                ...loggedInUser,
+                displayname: '',
+                email:"",
+                uid:"",
+                usertype:""
+            });
+        } 
+       
+    }).done();
 
     const paperTheme = useTheme();
 
     const { signOut, toggleTheme } = React.useContext(AuthContext);
-
+    
     return(
         <View style={{flex:1}}>
             <DrawerContentScrollView {...props}>
@@ -39,8 +72,8 @@ export function DrawerContent(props) {
                                 size={50}
                             />
                             <View style={{marginLeft:15, flexDirection:'column'}}>
-                                <Title style={styles.title}>John Doe</Title>
-                                <Caption style={styles.caption}>@j_doe</Caption>
+                                <Title style={styles.title}>{loggedInUser.displayname}</Title> 
+                                <Caption style={styles.caption}>{loggedInUser.usertype} </Caption>
                             </View>
                         </View>
 

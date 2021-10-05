@@ -82,8 +82,6 @@ const SignUpScreen = ({navigation}) => {
       const signupHandle = (user) => {
         //checking the user wheather user is available in our user storage 
         //if not you can make an api call and validate the loginHandle's Parameters userName, password against api result
-     console.log(JSON.stringify(user))
-
         if ( user.username.length == 0 || user.password.length == 0 ) {
             Alert.alert('Wrong Input!', 'Username or password field cannot be empty.', [
                 {text: 'Okay'}
