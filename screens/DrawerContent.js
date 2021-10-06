@@ -142,7 +142,7 @@ export function DrawerContent(props) {
                                 size={size}
                                 />
                             )}
-                            label="Support"
+                            label="Weather Forecast"
                             onPress={() => {props.navigation.navigate('WeatherForecast')}}
                         />
                     </Drawer.Section>
