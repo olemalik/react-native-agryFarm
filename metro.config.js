@@ -4,7 +4,7 @@
  *
  * @format
  */
-
+ //const blacklist = require('metro-config/src/defaults/blacklist');
 module.exports = {
   transformer: {
     getTransformOptions: async () => ({
@@ -13,5 +13,15 @@ module.exports = {
         inlineRequires: true,
       },
     }),
-  },
+  }
+  // ,resolver: {
+  //   blacklistRE: blacklist([
+  //     /ios\/Pods\/JitsiMeetSDK\/Frameworks\/JitsiMeet.framework\/assets\/node_modules\/react-native\/.*/,
+  //   ]),
+  // },
+};
+
+
+module.exports = {
+  
 };

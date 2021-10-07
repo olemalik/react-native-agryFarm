@@ -1,20 +1,16 @@
 import React, { useEffect } from 'react';
+import { View } from 'react-native';
 import JitsiMeet, { JitsiMeetView } from 'react-native-jitsi-meet';
 
-const SettingsScreen = () => {
-   
+const AgryMeetScreen = () => {
   useEffect(() => {
-    setTimeout(() => {
       const url = 'https://meet.jit.si/exemple';
       const userInfo = {
         displayName: 'User',
         email: 'user@example.com',
         avatar: 'https:/gravatar.com/avatar/abc123',
       };
-      JitsiMeet.call(url, userInfo);
-      /* Você também pode usar o JitsiMeet.audioCall (url) para chamadas apenas de áudio */
-      /* Você pode terminar programaticamente a chamada com JitsiMeet.endCall () */
-    }, 1000);
+     JitsiMeet.call( url, userInfo, );
   }, [])
 
   useEffect(() => {
@@ -38,6 +34,7 @@ const SettingsScreen = () => {
     console.log(nativeEvent)
   }
   return (
+    <View style={{ backgroundColor: 'black', flex: 1 }}>
     <JitsiMeetView
       onConferenceTerminated={e => onConferenceTerminated(e)}
       onConferenceJoined={e => onConferenceJoined(e)}
@@ -48,6 +45,7 @@ const SettingsScreen = () => {
         width: '100%',
       }}
     />
+     </View>
   )
 };
-export default SettingsScreen;
+export default AgryMeetScreen;

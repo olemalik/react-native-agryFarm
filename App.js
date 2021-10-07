@@ -17,7 +17,7 @@ import { DrawerContent } from './screens/DrawerContent';
 
 import MainTabScreen from './screens/MainTabScreen';
 import WeatherForecast from './screens/WeatherForecast';
-import SettingsScreen from './screens/SettingsScreen';
+import AgryMeetScreen from './screens/AgryMeetScreen';
 import BookmarkScreen from './screens/BookmarkScreen';
 
 import { AuthContext } from './components/context';
@@ -160,10 +160,10 @@ const App = () => {
     <NavigationContainer theme={theme}>
       { loginState.userToken !== null ? (
         <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-          <Drawer.Screen name="HomeDrawer" component={MainTabScreen} />
-          <Drawer.Screen name="WeatherForecast" component={WeatherForecast} />
-          <Drawer.Screen name="SettingsScreen" component={SettingsScreen} />
-          <Drawer.Screen name="BookmarkScreen" component={BookmarkScreen} />
+          {/* <Drawer.Screen name="HomeDrawer" component={MainTabScreen} /> */}
+          <Drawer.Screen name="WeatherForecast"   options={{ headerTitle:  "Weather Forecast" }} component={WeatherForecast} />
+          <Drawer.Screen name="AgryMeetScreen"    options={{ headerTitle:  "Agry Meet" }} component={AgryMeetScreen} />
+          <Drawer.Screen name="BookmarkScreen"    options={{ headerTitle:  "Bookmark" }} component={BookmarkScreen} />
         </Drawer.Navigator>
       )
     :
