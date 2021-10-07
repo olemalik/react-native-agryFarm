@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { View, ActivityIndicator } from 'react-native';
+import { View, ActivityIndicator,Text } from 'react-native';
 import { 
   NavigationContainer, 
   DefaultTheme as NavigationDefaultTheme,
@@ -26,6 +26,8 @@ import RootStackScreen from './screens/RootStackScreen';
 
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NetworkProvider, NetworkConsumer} from 'react-native-offline';
+
 const Drawer = createDrawerNavigator();
 
 const App = () => {
@@ -155,24 +157,36 @@ const App = () => {
     );
   }
   return (
-    <PaperProvider theme={theme}>
-    <AuthContext.Provider value={authContext}>
-    <NavigationContainer theme={theme}>
-      { loginState.userToken !== null ? (
-        <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
-          {/* <Drawer.Screen name="HomeDrawer" component={MainTabScreen} /> */}
-          <Drawer.Screen name="WeatherForecast"   options={{ headerTitle:  "Weather Forecast" }} component={WeatherForecast} />
-          <Drawer.Screen name="AgryMeetScreen"    options={{ headerTitle:  "Agry Meet" }} component={AgryMeetScreen} />
-          <Drawer.Screen name="BookmarkScreen"    options={{ headerTitle:  "Bookmark" }} component={BookmarkScreen} />
-        </Drawer.Navigator>
-      )
-    :
-      <RootStackScreen/>
-    }
-    </NavigationContainer>
-    </AuthContext.Provider>
-    </PaperProvider>
-  );
-}
+          <NetworkProvider shouldPing={true} pingInterval={100}>
+            <NetworkConsumer>
+              {({isConnected}) =>
+                  isConnected ? 
+                  (
+                    <PaperProvider theme={theme}>
+                      <AuthContext.Provider value={authContext}>
+                        <NavigationContainer theme={theme}>
+                          { loginState.userToken !== null ? 
+                          (
+                              <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
+                                  {/* <Drawer.Screen name="HomeDrawer" component={MainTabScreen} /> */}
+                                    <Drawer.Screen name="WeatherForecast"   options={{ headerTitle:  "Weather Forecast" }} component={WeatherForecast} />
+                                    <Drawer.Screen name="AgryMeetScreen"    options={{ headerTitle:  "Agry Meet" }} component={AgryMeetScreen} />
+                                    <Drawer.Screen name="BookmarkScreen"    options={{ headerTitle:  "Bookmark" }} component={BookmarkScreen} />
+                              </Drawer.Navigator>
+                            )
+                            :
+                              <RootStackScreen/>
+                            }
+                          </NavigationContainer>
+                        </AuthContext.Provider>
+                      </PaperProvider>
+                  ):(
+                      <Text> No Network</Text>
+                      )   
+                }
+              </NetworkConsumer>
+          </NetworkProvider>
+            );
+          } 
 
 export default App;

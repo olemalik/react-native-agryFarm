@@ -4,6 +4,7 @@ import JitsiMeet, { JitsiMeetView } from 'react-native-jitsi-meet';
 
 const AgryMeetScreen = () => {
   useEffect(() => {
+   // setTimeout(() => {
       const url = 'https://meet.jit.si/exemple';
       const userInfo = {
         displayName: 'User',
@@ -11,6 +12,7 @@ const AgryMeetScreen = () => {
         avatar: 'https:/gravatar.com/avatar/abc123',
       };
      JitsiMeet.call( url, userInfo, );
+    //}, 1000);
   }, [])
 
   useEffect(() => {
@@ -20,12 +22,15 @@ const AgryMeetScreen = () => {
   });
 
   function onConferenceTerminated(nativeEvent) {
+    JitsiMeet.endCall();
     /* Conference terminated event */
-    console.log(nativeEvent)
+    console.log("End")
+   // console.log(nativeEvent)
   }
 
   function onConferenceJoined(nativeEvent) {
     /* Conference joined event */
+    console.log("Con")
     console.log(nativeEvent)
   }
 
