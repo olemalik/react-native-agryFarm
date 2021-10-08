@@ -21,6 +21,8 @@ import SelectDropdown from 'react-native-select-dropdown';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 
+import AgryInput from '../customComponent/AgryInput';
+
 //import 'firebase/firestore'
 const SignUpScreen = ({navigation}) => {
   let dbRef = firestore().collection('userdetails');
@@ -238,14 +240,14 @@ const SignUpScreen = ({navigation}) => {
       <View style={styles.container}>
           <StatusBar backgroundColor='#009387' barStyle="light-content"/>
         <View style={styles.header}>
-            <Text style={styles.text_header}>Register Now!</Text>
+            <Text style={styles.text_header}>Register Now!</Text> 
         </View>
         <Animatable.View 
             animation="fadeInUpBig"
             style={styles.footer}
         >
             <ScrollView>
-            <Text style={styles.text_footer}>Name</Text>
+            <AgryInput  label={"Name"}></AgryInput>    
             <View style={styles.action}>
                 <FontAwesome 
                     name="user-o"
@@ -278,8 +280,7 @@ const SignUpScreen = ({navigation}) => {
             }
 
 
-            
-            <Text style={styles.text_footer}>Email</Text>
+           <AgryInput  label={"Email"}></AgryInput>     
             <View style={styles.action}>
                 <FontAwesome 
                     name="user-o"
@@ -310,8 +311,7 @@ const SignUpScreen = ({navigation}) => {
             <Text style={styles.errorMsg}>Invalid email address.</Text>
             </Animatable.View>
             }
-
-            <Text style={styles.text_footer}>User Type</Text>
+            <AgryInput  label={"User Type"}></AgryInput>     
             <View style={styles.action}>
                 <SelectDropdown
                     style={styles.dropDown}
@@ -336,9 +336,7 @@ const SignUpScreen = ({navigation}) => {
             </Animatable.View>
             }
 
-            <Text style={[styles.text_footer, {
-                marginTop: 35
-            }]}>Password</Text>
+            <AgryInput  label={"Password"} styleMrginTop={35}></AgryInput>  
             <View style={styles.action}>
                 <Feather 
                     name="lock"
@@ -376,9 +374,8 @@ const SignUpScreen = ({navigation}) => {
             <Text style={styles.errorMsg}>Password must be 5 characters long.</Text>
             </Animatable.View>
             } 
-            <Text style={[styles.text_footer, {
-                marginTop: 35
-            }]}>Confirm Password</Text>
+
+            <AgryInput  label={"Confirm Password"} styleMrginTop={35}></AgryInput>  
             <View style={styles.action}>
                 <Feather 
                     name="lock"

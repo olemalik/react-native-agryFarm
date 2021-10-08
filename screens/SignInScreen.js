@@ -26,6 +26,8 @@ import Users from '../model/users';
 import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 
+import AgryInput from '../customComponent/AgryInput';
+
 const SignInScreen = ({navigation}) => {
 let dbRef = firestore().collection('userdetails');
     const [data, setData] = React.useState({
@@ -179,10 +181,9 @@ let dbRef = firestore().collection('userdetails');
             style={[styles.footer, {
                 backgroundColor: colors.background
             }]}
-        >
-            <Text style={[styles.text_footer, {
-                color: colors.text
-            }]}>Email</Text>
+        > 
+           
+           <AgryInput themeColor={colors.text} label={"Email"}  styleMrginTop={0} ></AgryInput>
             <View style={styles.action}>
                 <FontAwesome 
                     name="user-o"
@@ -217,11 +218,8 @@ let dbRef = firestore().collection('userdetails');
             </Animatable.View>
             }
             
-
-            <Text style={[styles.text_footer, {
-                color: colors.text,
-                marginTop: 35
-            }]}>Password</Text>
+            <AgryInput themeColor={colors.text} label={"Password"}  styleMrginTop={35} ></AgryInput>
+          
             <View style={styles.action}>
                 <Feather 
                     name="lock"
