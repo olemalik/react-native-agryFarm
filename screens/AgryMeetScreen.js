@@ -39,7 +39,7 @@ const AgryMeetScreen = () => {
     console.log(nativeEvent)
   }
   return (
-    <View style={{ backgroundColor: 'black', flex: 1 }}>
+     <View style={{ backgroundColor: 'black', flex: 1 }}>
     <JitsiMeetView
       onConferenceTerminated={e => onConferenceTerminated(e)}
       onConferenceJoined={e => onConferenceJoined(e)}
@@ -50,7 +50,7 @@ const AgryMeetScreen = () => {
         width: '100%',
       }}
     />
-     </View>
+      </View>
   )
 };
 export default AgryMeetScreen;

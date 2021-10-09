@@ -18,7 +18,7 @@ import { DrawerContent } from './screens/DrawerContent';
 import MainTabScreen from './screens/MainTabScreen';
 import WeatherForecast from './screens/WeatherForecast';
 import AgryMeetScreen from './screens/AgryMeetScreen';
-import BookmarkScreen from './screens/BookmarkScreen';
+import JitsiCallScreen from './screens/JitsiCallScreen';
 
 import { AuthContext } from './components/context';
 
@@ -26,7 +26,7 @@ import RootStackScreen from './screens/RootStackScreen';
 
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NetworkProvider, NetworkConsumer} from 'react-native-offline';
+//import {NetworkProvider, NetworkConsumer} from 'react-native-offline'; 
 
 const Drawer = createDrawerNavigator();
 
@@ -114,9 +114,7 @@ const App = () => {
       // console.log('user token: ', userToken);
       dispatch({ type: 'LOGIN', id: userName, token: userToken });
     },
-    signOut: async() => {
-      // setUserToken(null);
-      // setIsLoading(false);
+    signOut: async() => { 
       try {
         await AsyncStorage.removeItem('loginUserDetails');
         await AsyncStorage.removeItem('userToken');
@@ -141,6 +139,12 @@ const App = () => {
       userToken = null;
       try {
         userToken = await AsyncStorage.getItem('userToken');
+        try {
+          await AsyncStorage.removeItem('loginUserDetails');
+          await AsyncStorage.removeItem('userToken');
+        } catch(e) {
+          console.log(e);
+        }
       } catch(e) {
         console.log(e);
       }
@@ -157,11 +161,11 @@ const App = () => {
     );
   }
   return (
-          <NetworkProvider shouldPing={true} pingInterval={100}>
-            <NetworkConsumer>
-              {({isConnected}) =>
-                  isConnected ? 
-                  (
+          // <NetworkProvider shouldPing={true} pingInterval={100}>
+          //   <NetworkConsumer>
+          //   {({isConnected}) =>
+          //         isConnected ? 
+          //         (
                     <PaperProvider theme={theme}>
                       <AuthContext.Provider value={authContext}>
                         <NavigationContainer theme={theme}>
@@ -171,7 +175,7 @@ const App = () => {
                                   {/* <Drawer.Screen name="HomeDrawer" component={MainTabScreen} /> */}
                                     <Drawer.Screen name="WeatherForecast"   options={{ headerTitle:  "Weather Forecast" }} component={WeatherForecast} />
                                     <Drawer.Screen name="AgryMeetScreen"    options={{ headerTitle:  "Agry Meet" }} component={AgryMeetScreen} />
-                                    <Drawer.Screen name="BookmarkScreen"    options={{ headerTitle:  "Bookmark" }} component={BookmarkScreen} />
+                                    <Drawer.Screen name="JitsiCallScreen"    options={{ headerTitle:  "Agry Meet" }} component={JitsiCallScreen} />
                               </Drawer.Navigator>
                             )
                             :
@@ -180,12 +184,12 @@ const App = () => {
                           </NavigationContainer>
                         </AuthContext.Provider>
                       </PaperProvider>
-                  ):(
-                      <Text> No Network</Text>
-                      )   
-                }
-              </NetworkConsumer>
-          </NetworkProvider>
+  //          ):(
+  //           <Text> No Network</Text>
+  //           )   
+  //     }  
+  //     </NetworkConsumer>
+  // </NetworkProvider>
             );
           } 
 

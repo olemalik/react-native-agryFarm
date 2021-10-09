@@ -120,8 +120,8 @@ export function DrawerContent(props) {
                                 size={size}
                                 />
                             )}
-                            label="Bookmarks"
-                            onPress={() => {props.navigation.navigate('BookmarkScreen')}}
+                            label="Agry Meet"
+                            onPress={() => {props.navigation.navigate('JitsiCallScreen')}}
                         />
                         <DrawerItem 
                             icon={({color, size}) => (
