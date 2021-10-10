@@ -21,7 +21,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import{ AuthContext } from '../components/context';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import {JitsiCallScreen} from './JitsiCallScreen';
 export function DrawerContent(props) {
     const [loggedInUser, setData] = React.useState({
         usertype:'',
@@ -75,7 +75,7 @@ export function DrawerContent(props) {
                         </View>
                     </View>
                     <Drawer.Section style={styles.drawerSection}>
-                        <DrawerItem 
+                        <DrawerItem  DrawerItem={props => <JitsiCallScreen {...props} />}
                             icon={({color, size}) => (
                                 <Icon 
                                 name="bookmark-outline" 
@@ -86,7 +86,7 @@ export function DrawerContent(props) {
                             label="Agry Meet"
                             onPress={() => {props.navigation.navigate('JitsiCallScreen')}}
                         />
-                        <DrawerItem 
+                        {/* <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 
                                 name="settings-outline" 
@@ -96,7 +96,7 @@ export function DrawerContent(props) {
                             )}
                             label="Agry Meet"
                             onPress={() => {props.navigation.navigate('AgryMeetScreen')}}
-                        />
+                        /> */}
                         <DrawerItem 
                             icon={({color, size}) => (
                                 <Icon 

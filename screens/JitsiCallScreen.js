@@ -6,8 +6,8 @@ import firebase from '@react-native-firebase/app';
 import firestore from '@react-native-firebase/firestore';
 
 import AgryInput from '../customComponent/AgryInput';
-
-const JitsiCallScreen = () => { 
+ 
+const JitsiCallScreen = (props) => { 
   const selectUserType ="Select an option.";
   const [userTypes, setUserTypes] = React.useState([]);
   const [selectedUserItem, setSelectedUserItem] = React.useState([]);
@@ -45,14 +45,14 @@ const selectedUserType =(selectedItem)=>{
 }
 }
 
-const agryCallHandle = () => {
+const agryCallHandle = (nav) => {
 
 if(selectedUserItem==0){
  
   Alert.alert("Invalid User","Please Select a User to continue.");
   return false;
-}
-alert(selectedUserItem)
+} 
+return nav("AgryMeetScreen");  
 
 }
     return (
@@ -64,21 +64,16 @@ alert(selectedUserItem)
                     data={userTypes}
                     onSelect={(selectedItem, index) => selectedUserType(selectedItem)}
                     buttonTextAfterSelection={(selectedItem, index) => {
-                        // text represented after item is selected
-                        // if data array is an array of objects then return selectedItem.property to render after item is selected
-                        return selectedItem.name
+                         return selectedItem.name
                     }}
                     rowTextForSelection={(item, index) => { 
-                        // text represented for each item in dropdown
-                        // if data array is an array of objects then return item.property to represent item in dropdown
-                       //alert(item);
                         return item.name
                     }}
                 />
             </View> 
         <Button
           title="Join" 
-          onPress={() => {agryCallHandle()}}
+          onPress={() => {agryCallHandle(props.navigation.navigate)}}
         />
       </View>
     );
