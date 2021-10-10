@@ -7,6 +7,8 @@ buildscript {
         compileSdkVersion = 30
         targetSdkVersion = 30
         ndkVersion = "20.1.5948944"
+        //googlePlayServicesVersion = "^17.6.0" // default: "+"
+        //firebaseVersion = "26.3.0" // default: "+"
     }
     repositories {
         google()
@@ -15,6 +17,7 @@ buildscript {
     dependencies {
         classpath("com.android.tools.build:gradle:4.2.1")
         classpath 'com.google.gms:google-services:4.3.10'
+        //classpath 'com.google.gms:google-services:+'
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
     }
@@ -22,6 +25,8 @@ buildscript {
 
 allprojects {
     repositories {
+          google()
+        maven { url 'https://maven.google.com' }
         mavenCentral()
         mavenLocal()
         maven {
@@ -37,7 +42,7 @@ allprojects {
             url("$rootDir/../node_modules/jsc-android/dist")
         }
 
-        google()
+       // google()
         maven { url 'https://www.jitpack.io' }
     }
 }

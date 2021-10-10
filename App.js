@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { View, ActivityIndicator,Text } from 'react-native';
+import React, { useEffect ,Fragment} from 'react';
+import { View, ActivityIndicator,Text,SafeAreaView,StyleSheet,StatusBar,ScrollView,FlatList } from 'react-native';
 import { 
   NavigationContainer, 
   DefaultTheme as NavigationDefaultTheme,
@@ -24,10 +24,12 @@ import { AuthContext } from './components/context';
 
 import RootStackScreen from './screens/RootStackScreen';
 
+import NotificationScreen from './screens/NotificationScreen';
 import auth from '@react-native-firebase/auth';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 //import {NetworkProvider, NetworkConsumer} from 'react-native-offline'; 
 
+import PushController from './controllers/PushController';
 const Drawer = createDrawerNavigator();
 
 const App = () => {
@@ -165,17 +167,21 @@ const App = () => {
           //   <NetworkConsumer>
           //   {({isConnected}) =>
           //         isConnected ? 
-          //         (
+          //         (          
                     <PaperProvider theme={theme}>
                       <AuthContext.Provider value={authContext}>
                         <NavigationContainer theme={theme}>
+                        <View style={{opacity: 0, height: 0}} >
+                        <PushController/>                       
+                          </View>
                           { loginState.userToken !== null ? 
                           (
                               <Drawer.Navigator drawerContent={props => <DrawerContent {...props} />}>
                                   {/* <Drawer.Screen name="HomeDrawer" component={MainTabScreen} /> */}
                                     <Drawer.Screen name="WeatherForecast"   options={{ headerTitle:  "Weather Forecast" }} component={WeatherForecast} />
                                     <Drawer.Screen name="AgryMeetScreen"    options={{ headerTitle:  "Agry Meet" }} component={AgryMeetScreen} />
-                                    <Drawer.Screen name="JitsiCallScreen"    options={{ headerTitle:  "Agry Meet" }} component={JitsiCallScreen} />
+                                    <Drawer.Screen name="JitsiCallScreen"   options={{ headerTitle:  "Agry Meet" }} component={JitsiCallScreen} />
+                                    <Drawer.Screen name="NotificationScreen"   options={{ headerTitle:  "Notification" }} component={NotificationScreen} /> 
                               </Drawer.Navigator>
                             )
                             :
@@ -183,7 +189,7 @@ const App = () => {
                             }
                           </NavigationContainer>
                         </AuthContext.Provider>
-                      </PaperProvider>
+                      </PaperProvider>             
   //          ):(
   //           <Text> No Network</Text>
   //           )   
@@ -192,5 +198,5 @@ const App = () => {
   // </NetworkProvider>
             );
           } 
-
-export default App;
+          
+ export default App;

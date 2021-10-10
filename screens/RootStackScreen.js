@@ -1,4 +1,5 @@
-import React from 'react';
+import React from 'react'; 
+import { View,StyleSheet } from 'react-native';
 
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 
@@ -8,11 +9,14 @@ import SignUpScreen from './SignUpScreen';
 
 const RootStack = createNativeStackNavigator();
 
-const RootStackScreen = ({navigation}) => (
-    <RootStack.Navigator headerMode='none'>
-        <RootStack.Screen name="SplashScreen" component={SplashScreen}/>
-        <RootStack.Screen name="SignInScreen" component={SignInScreen}/>
-        <RootStack.Screen name="SignUpScreen" component={SignUpScreen}/>
+const RootStackScreen = ({navigation}) => ( 
+    <RootStack.Navigator screenOptions={{
+        headerStyle: { backgroundColor: '#009387' },
+        
+    }} headerMode='none'>
+        <RootStack.Screen  name="SplashScreen"  options={{ headerTitle:  "" }} component={SplashScreen}/>
+        <RootStack.Screen name="SignInScreen"  options={{ headerTitle:  "" }} component={SignInScreen}/>
+        <RootStack.Screen name="SignUpScreen"  options={{ headerTitle:  "" }} component={SignUpScreen}/>
     </RootStack.Navigator>
 );
 
