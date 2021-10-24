@@ -72,7 +72,7 @@ return nav("AgryMeetScreen");
                 />
             </View> 
         <Button
-          title="Join" 
+          title="Join Agry Meet" 
           onPress={() => {agryCallHandle(props.navigation.navigate)}}
         />
       </View>

@@ -3,7 +3,6 @@ import React, { useEffect, useState } from 'react';
 import { StyleSheet, Text, View, Image, ActivityIndicator, SafeAreaView, ScrollView, FlatList, Alert, RefreshControl } from 'react-native';
 import RNLocation from 'react-native-location';
 
-// import { openWeatherKey } from './Secrets';
 const openWeatherKey = `f007b7d28f16f635c4dccd086915ce03`;
 let url = `https://api.openweathermap.org/data/2.5/onecall?&units=metric&exclude=minutely&appid=${openWeatherKey}`;
 RNLocation.configure({
@@ -41,8 +40,7 @@ const WeatherForecast = () => {
       location = await RNLocation.getLatestLocation({timeout: 100})
       console.log(location, location.longitude, location.latitude,   
                   location.timestamp)
-  }
-    //  let location = RNLocation.getLatestLocation({timeout: 100});
+  } 
     isViewLocation(location);
     const response = await fetch( `${url}&lat=${viewLocation.latitude}&lon=${viewLocation.longitude}`);
     const data = await response.json();
@@ -68,8 +66,7 @@ const WeatherForecast = () => {
       </SafeAreaView>;
   }
 
-  const current = forecast.current.weather[0];
-  // TODO: In an upcoming blog post, I'll be extracting components out of this class as you would in a real application.
+  const current = forecast.current.weather[0]; 
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView 
@@ -79,7 +76,7 @@ const WeatherForecast = () => {
             refreshing={refreshing}
           />}
       >
-        <Text style={styles.title}>Current Weather</Text>
+        <Text style={styles.title}>Today's Weather</Text>
         <View style={styles.current}>
           <Image
             style={styles.largeIcon}
@@ -92,7 +89,7 @@ const WeatherForecast = () => {
         
         <Text style={styles.currentDescription}>{current.description}</Text>
         <View>
-          <Text style={styles.subtitle}>Hourly Forecast</Text>
+          <Text style={styles.subtitle}>Hourly</Text>
           <FlatList horizontal
             data={forecast.hourly.slice(0, 24)}
             keyExtractor={(item, index) => index.toString()}
@@ -115,7 +112,7 @@ const WeatherForecast = () => {
         </View>
 
         <Text style={styles.subtitle}>Next 5 Days</Text>
-        {forecast.daily.slice(0,5).map(d => { //Only want the next 5 days
+        {forecast.daily.slice(0,5).map(d => { 
           const weather = d.weather[0];
           var dt = new Date(d.dt * 1000);
           return <View style={styles.day} key={d.dt}>
@@ -142,13 +139,13 @@ const styles = StyleSheet.create({
     width: '100%',
     textAlign: 'center',
     fontSize: 42,
-    color: '#e96e50',
+    color: '#009387',
   },
   subtitle: {
     fontSize: 24,
     marginVertical: 12,
     marginLeft: 4,
-    color: '#e96e50',
+    color: '#009387',
   },
   container: {
     flex: 1,
